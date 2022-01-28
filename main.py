@@ -1,6 +1,12 @@
-from fastapi import FastAPI
+from fastapi import Body, FastAPI
+from pydantic import BaseModel
 
 app = FastAPI()
+
+
+class Post(BaseModel):
+    title: str
+    content: str
 
 
 @app.get("/")
@@ -14,5 +20,6 @@ def get_posts():
 
 
 @app.post("/createpost")
-def get_posts():
-    return {"message": "Successfully created a post."}
+def get_posts(new_post: Post):
+    print(new_post)
+    return {"data": "new_post"}
