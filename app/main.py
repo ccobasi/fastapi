@@ -5,7 +5,7 @@ from random import randrange
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from . import models
-from .database import engine, SessionLocal, get_db
+from .database import engine, get_db
 import time
 from sqlalchemy.orm import Session
 
