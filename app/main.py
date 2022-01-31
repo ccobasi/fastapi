@@ -32,7 +32,7 @@ class Post(BaseModel):
 
 try:
     conn = psycopg2.connect(host='localhost', database='fastapi', user='postgres',
-                            password='123456', cursor_factory='RealDictCursor')
+                            password='123456', cursor_factory=RealDictCursor)
     cursor = conn.cursor()
     print('Database connection was successfull!')
 except Exception as error:
@@ -47,7 +47,9 @@ async def root():
 
 @app.get("/posts")
 def get_posts():
-    return {"data": my_posts}
+    cursor.execute(""" SELECT * FROM posts """)
+    posts = cursor.fetchall()
+    return {"data": posts}
 
 
 @app.post("/posts", status_code=status.HTTP_201_CREATED)
