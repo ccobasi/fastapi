@@ -5,21 +5,13 @@ from random import randrange
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from . import models
-from .database import engine, SessionLocal
+from .database import engine, SessionLocal, get_db
 import time
 from sqlalchemy.orm import Session
 
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
-
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
 
 my_posts = [{"title": "title 1", "content": "content 1", "id": 1},

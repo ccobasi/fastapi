@@ -2,7 +2,7 @@ from tokenize import String
 from turtle import title
 from xmlrpc.client import Boolean
 from markupsafe import string
-from sqlalchemy import Column, Integer
+from sqlalchemy import Column, Integer, String, Boolean
 from .database import Base
 
 
