@@ -1,11 +1,13 @@
 from typing import Optional
-from fastapi import Body, FastAPI, HTTPException, status
+from fastapi import Body, FastAPI, HTTPException, status, Depends
 from pydantic import BaseModel
 from random import randrange
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from . import models
 from .database import engine, SessionLocal
+import time
+from sqlalchemy.orm import Session
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -55,6 +57,11 @@ except Exception as error:
 @app.get("/")
 async def root():
     return {"message": "Welcome to my api"}
+
+
+@app.get("/sqlalchemy")
+def test_posts(db: Session = Depends(get_db)):
+    return {"status": "success"}
 
 
 @app.get("/posts")
