@@ -1,3 +1,4 @@
+from turtle import title
 from typing import Optional
 from fastapi import Body, FastAPI, HTTPException, status, Depends
 from pydantic import BaseModel
@@ -70,11 +71,14 @@ def get_posts(db: Session = Depends(get_db)):
 
 
 @app.post("/posts", status_code=status.HTTP_201_CREATED)
-def get_posts(post: Post):
-    cursor.execute(""" INSERT INTO posts (title,content,published) VALUES (%s,%s,%s) RETURNING *""",
-                   (post.title, post.content, post.published))
-    new_post = cursor.fetchone()
-    conn.commit()
+# def get_posts(post: Post):
+def get_posts(post: Post, db: Session = Depends(get_db)):
+    # cursor.execute(""" INSERT INTO posts (title,content,published) VALUES (%s,%s,%s) RETURNING *""",
+    #                (post.title, post.content, post.published))
+    # new_post = cursor.fetchone()
+    # conn.commit()
+    new_post = models.Post(
+        title=post.title, content=post.title, published=post.published)
     return {"data": new_post}
 
 
