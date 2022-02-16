@@ -78,14 +78,19 @@ def get_posts(post: Post, db: Session = Depends(get_db)):
     # new_post = cursor.fetchone()
     # conn.commit()
     new_post = models.Post(
-        title=post.title, content=post.title, published=post.published)
+        **post.dict())
+    db.add(new_post)
+    db.commit()
+    db.refresh(new_post)
     return {"data": new_post}
 
 
 @app.get("/posts/{id}")
-def get_posts(id: int):
-    cursor.execute(""" SELECT * FROM posts WHERE id = %s""", (str(id)))
-    post = cursor.fetchone()
+# def get_posts(id:int):
+def get_posts(id: int, db: Session = Depends(get_db)):
+    # cursor.execute(""" SELECT * FROM posts WHERE id = %s""", (str(id)))
+    # post = cursor.fetchone()
+    post = db.query(models.Post).filter(models.Post.id == id).first()
     if not post:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"post with id: {id} not found")
