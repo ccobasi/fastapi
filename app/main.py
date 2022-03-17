@@ -78,7 +78,7 @@ def create_posts(post: schemas.PostBase, db: Session = Depends(get_db)):
     return new_post
 
 
-@app.get("/posts/{id}")
+@app.get("/posts/{id}", response_model=schemas.Post)
 # def get_posts(id:int):
 def get_posts(id: int, db: Session = Depends(get_db)):
     # cursor.execute(""" SELECT * FROM posts WHERE id = %s""", (str(id)))
@@ -107,7 +107,7 @@ def delete_post(id: int, db: Session = Depends(get_db)):
     return {"data": "Post was delete successfully"}
 
 
-@app.put("/posts/{id}")
+@app.put("/posts/{id}", response_model=schemas.Post)
 # def update_post(id: int, post:Post):
 def update_post(id: int, updated_post: schemas.PostCreate, db: Session = Depends(get_db)):
     # cursor.execute(
